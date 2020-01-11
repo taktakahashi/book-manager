@@ -5,13 +5,21 @@
     { id: 3, name: 'ポモドーロ GTD すきま時間予定表で目標達成する本', imgUrl: 'https://i.gyazo.com/0e69af4e7fd229fae9c6b6c44c9bb4d9.png' },
     { id: 4, name: 'Nuxt Svelte Ionicで作る爆速フロントエンド 3つの世界', imgUrl: 'https://i.gyazo.com/a5db257b7b48210536d387ba9ad5da80.jpg' }
   ]
+
+  let showedBook = books[0]
+
 </script>
 
 <main>
+  <section class="book">
+    <div class="book-info">
+      <img class="book-img" src={ showedBook.imgUrl }>
+    </div>
+  </section>
   <nav class="nav-tab">
     <ul class="nav-tab-list">
       { #each books as book (book.id) }
-        <li class="nav-tab-list-el">
+        <li class="nav-tab-list-el" on:click="{ () => showedBook = book }">
           <img class="book-thumb" src={ book.imgUrl }>
         </li>
       { /each }
@@ -33,6 +41,17 @@
         .book-thumb {
           height: 100px;
         }
+      }
+    }
+  }
+  .book {
+    .book-info {
+      height: 400px;
+      display: flex;
+      justify-content: center;
+      margin-top: 32px;
+      .book-img {
+        height: 100%;
       }
     }
   }
