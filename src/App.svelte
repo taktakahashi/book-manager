@@ -19,7 +19,7 @@
   <nav class="nav-tab">
     <ul class="nav-tab-list">
       { #each books as book (book.id) }
-        <li class="nav-tab-list-el" on:click="{ () => showedBook = book }">
+        <li class="nav-tab-list-el" class:active="{ book === showedBook }" on:click="{ () => showedBook = book }">
           <img class="book-thumb" src={ book.imgUrl }>
         </li>
       { /each }
@@ -37,7 +37,10 @@
       .nav-tab-list-el {
         min-width: 100px;
         margin: 16px 16px 0;
-
+        opacity: 0.5;
+        &.active {
+          opacity: 1.0;
+        }
         .book-thumb {
           height: 100px;
         }
