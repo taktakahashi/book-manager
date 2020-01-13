@@ -1,5 +1,7 @@
 <script>
   import NavElement from './NavElement.svelte'
+  import { fade } from 'svelte/transition';
+  import { fly } from 'svelte/transition';
 
   let books = [
     { id: 1, name: 'ゼロから始めるデザインシステム', imgUrl: 'https://i.gyazo.com/a3ddad4c037aca4778628c826a64ce4c.jpg', author: '榊原宏祐 原田佳樹' },
@@ -9,27 +11,35 @@
   ]
 
   let showedBook = books[0]
+  let visible = true
 
-  function setShowedBook(event) {
+  function navClicked(event) {
+    visible = false
     showedBook = event.detail.book
   }
 </script>
 
 <main>
   <h1 class="title">Trive技術書展部 お品書き</h1>
-  <section class="book">
-    <div class="book-container" style={ `background-image: url(${showedBook.imgUrl});` }>
-      <div class="book-info">
-        <div class="label showed">{ showedBook.name }</div><br>
-        <div class="label shadowed">著者: { showedBook.author }</div>
+  { #if visible }
+    <section class="book">
+      <div class="book-container"
+           style={ `background-image: url(${showedBook.imgUrl});` }
+           on:outroend="{ () => visible = true }"
+           transition:fade
+      >
+        <div class="book-info">
+          <div class="label shadowed">{ showedBook.name }</div><br>
+          <div class="label shadowed">著者: { showedBook.author }</div>
+        </div>
+        <img class="book-img shadowed" src={ showedBook.imgUrl } in:fly="{{ y: 500, duration: 2000 }}" out:fade>
       </div>
-      <img class="book-img shadowed" src={ showedBook.imgUrl }>
-    </div>
-  </section>
+    </section>
+  { /if }
   <nav class="nav-tab">
     <ul class="nav-tab-list">
       { #each books as book (book.id) }
-        <NavElement active={ book === showedBook } { book } on:navClicked={ setShowedBook } ></NavElement>
+        <NavElement active={ book === showedBook } { book } on:navClicked={ navClicked } ></NavElement>
       { /each }
     </ul>
   </nav>
