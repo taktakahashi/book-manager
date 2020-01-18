@@ -12,10 +12,14 @@
 
   let showedBook = books[0]
   let visible = true
+  let clickable = true
 
   function navClicked(event) {
-    visible = false
-    showedBook = event.detail.book
+    if (clickable) {
+      visible = false
+      clickable = false
+      showedBook = event.detail.book
+    }
   }
 </script>
 
@@ -26,6 +30,7 @@
       <div class="book-container"
            style={ `background-image: url(${showedBook.imgUrl});` }
            on:outroend="{ () => visible = true }"
+           on:introend="{ () => clickable = true }"
            transition:fade
       >
         <div class="book-info">
